@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>English → Urdu MCQ Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial;
+  background: #eef2f3;
+  text-align: center;
+}
+.box {
+  background: white;
+  padding: 20px;
+  margin: auto;
+  max-width: 420px;
+  border-radius: 10px;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2 id="word"></h2>
+
+  <button onclick="checkAnswer(0)" id="opt0"></button>
+  <button onclick="checkAnswer(1)" id="opt1"></button>
+  <button onclick="checkAnswer(2)" id="opt2"></button>
+  <button onclick="checkAnswer(3)" id="opt3"></button>
+
+  <h3 id="score"></h3>
+</div>
+
+<script>
+const words = [
+  { en: "Brave",   ur: "بہادر" },
+  { en: "Honest",  ur: "ایماندار" },
+  { en: "Clean",   ur: "صاف" },
+  { en: "Strong",  ur: "مضبوط" },
+  { en: "Silent",  ur: "خاموش" },
+  { en: "Happy",   ur: "خوش" },
+  { en: "Quick",   ur: "تیز" },
+  { en: "Angry",   ur: "غصے میں" }
+];
+
+let score = 0;
+let correctIndex = 0;
+let currentCorrect = "";
+
+function loadQuestion() {
+  const q = words[Math.floor(Math.random() * words.length)];
+  currentCorrect = q.ur;
+
+  document.getElementById("word").innerText =
+    "Meaning of: " + q.en;
+
+  let options = [currentCorrect];
+
+  while (options.length < 4) {
+    let r = words[Math.floor(Math.random() * words.length)].ur;
+    if (!options.includes(r)) {
+      options.push(r);
+    }
+  }
+
+  options.sort(() => Math.random() - 0.5);
+
+  correctIndex = options.indexOf(currentCorrect);
+
+  for (let i = 0; i < 4; i++) {
+    document.getElementById("opt" + i).innerText = options[i];
+  }
+
+  document.getElementById("score").innerText = "Score: " + score;
+}
+
+function checkAnswer(selected) {
+  if (selected === correctIndex) {
+    score++;
+    alert("Correct ✔");
+  } else {
+    alert("Wrong ✖\nCorrect answer: " + currentCorrect);
+  }
+  loadQuestion();
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
